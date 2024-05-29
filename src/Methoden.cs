@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ATM_System_V2;
 
-namespace ATM_System_V2
+namespace ATM_System_V2.src
 {
     class Methoden
     {
@@ -40,7 +39,7 @@ namespace ATM_System_V2
                     else
                     {
                         Console.WriteLine(" ");
-                        Console.WriteLine("Die UserID: " + userId + " wurde nicht im System gefunden!");
+                        Console.WriteLine("Die UserID: " + userId + " wurde nicht im System gefunden!!");
                         Thread.Sleep(3000);
                         Console.Clear();
                         UserLogin();
@@ -123,19 +122,19 @@ namespace ATM_System_V2
 
             switch (input)
             {
-                case ("1"):
+                case "1":
                     Console.Clear();
                     UserLogin();
                     break;
-                case ("2"):
+                case "2":
                     Console.Clear();
                     Console.WriteLine("Admin Login");
                     break;
-                case ("3"):
+                case "3":
                     Console.Clear();
                     SelectLoginRegisterMenu();
                     break;
-                case ("4"):
+                case "4":
                     Environment.Exit(0);
                     break;
                 default:
@@ -166,11 +165,11 @@ namespace ATM_System_V2
 
             switch (input)
             {
-                case ("1"):
+                case "1":
                     Console.Clear();
                     SelectLoginMenu();
                     break;
-                case ("2"):
+                case "2":
                     Console.WriteLine("Register");
                     break;
                 default:

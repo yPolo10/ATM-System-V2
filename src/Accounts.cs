@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 
-namespace ATM_System_V2
+namespace ATM_System_V2.src
 {
     class Accounts
     {
@@ -24,16 +24,16 @@ namespace ATM_System_V2
 
         public Accounts(int id, int userid, int pin, int bal, bool isadmin, string vorName, string nachName)
         {
-            this.Id = id;
-            this.UserId = userid;
-            this.Pin = pin;
-            this.Bal = bal;
-            this.IsAdmin = isadmin;
-            this.VorName = vorName;
-            this.NachName = nachName;
+            Id = id;
+            UserId = userid;
+            Pin = pin;
+            Bal = bal;
+            IsAdmin = isadmin;
+            VorName = vorName;
+            NachName = nachName;
 
             numberOfAccounts++;
-            
+
         }
 
         //GETTER
@@ -114,7 +114,7 @@ namespace ATM_System_V2
 
         public AdminAccount(int id, int userid, int pin, int bal, bool isadmin, string adminPin, string VorName, string NachName) : base(id, userid, pin, bal, isadmin, VorName, NachName)
         {
-            this.AdminPin = adminPin;
+            AdminPin = adminPin;
 
         }
 
