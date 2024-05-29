@@ -27,7 +27,7 @@ namespace ATM_System_V2.src
             Console.WriteLine(" ");
             Console.WriteLine("UserID: ");
             Console.WriteLine(" ");
-            Console.WriteLine("----------------------");
+            Console.WriteLine("-----------------------");
 
             while (true)
             {
