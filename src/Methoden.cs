@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,76 +10,83 @@ namespace ATM_System_V2.src
 {
     class Methoden
     {
-
         public Methoden() { }
 
-
-        public static void UserLogin()
+        public static void AdminLogin()
         {
+            int cooldown = 1000;
 
             int userId;
-            int pin;
+            string adminpin;
 
             Accounts currentUser;
 
             // CHECK FOR USER ID
+            Console.Clear();
+            Console.WriteLine("----- ATM-System -----");
+            Console.WriteLine(" ");
+            Console.WriteLine("UserID: ");
+            Console.WriteLine(" ");
+            Console.WriteLine("----------------------");
+
             while (true)
             {
                 try
                 {
-                    Console.WriteLine("----- ATM-System -----");
-                    Console.WriteLine(" ");
-                    Console.WriteLine("UserID: ");
                     Console.SetCursorPosition(9, 2);
                     userId = int.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
-                    Console.WriteLine("----------------------");
 
                     currentUser = ATM.accounts.FirstOrDefault(a => a.UserId == userId);
+
+                    if (currentUser.GetAdminStatus() == false)
+                    {
+                        Console.Clear();
+                        SelectLoginRegisterMenu();
+                    }
+
                     if (currentUser != null) { break; }
                     else
                     {
                         Console.WriteLine(" ");
                         Console.WriteLine("Die UserID: " + userId + " wurde nicht im System gefunden!!");
-                        Thread.Sleep(3000);
+                        Thread.Sleep(cooldown);
                         Console.Clear();
                         UserLogin();
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("UserID nicht gefunden!");
-                    Thread.Sleep(3000);
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Die ID muss aus Zahlen bestehen!");
+                    Thread.Sleep(cooldown);
                     Console.Clear();
                     UserLogin();
                 }
-
             }
 
             //PIN CHECK
+            Console.Clear();
+            Console.WriteLine("----- ATM-System -----");
+            Console.WriteLine(" ");
+            Console.WriteLine("UserID: " + currentUser.GetUserId());
+            Console.WriteLine(" ");
+            Console.WriteLine("PIN: ");
+            Console.WriteLine(" ");
+            Console.WriteLine("----------------------");
+
             while (true)
             {
                 try
                 {
-                    Console.Clear();
-
-                    Console.WriteLine("----- ATM-System -----");
-                    Console.WriteLine(" ");
-                    Console.WriteLine("UserID: " + currentUser.GetUserId());
-                    Console.WriteLine(" ");
-                    Console.WriteLine("PIN: ");
                     Console.SetCursorPosition(6, 4);
-                    pin = int.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
-                    Console.WriteLine("----------------------");
+                    adminpin = Console.ReadLine();
 
-                    currentUser = ATM.accounts.FirstOrDefault(a => a.UserId == userId);
-                    if (currentUser != null) { break; }
+                    if (currentUser.GetAdminPin() == adminpin) { break; }
                     else
                     {
                         Console.WriteLine(" ");
                         Console.WriteLine("Falscher PIN!");
-                        Thread.Sleep(3000);
+                        Thread.Sleep(cooldown);
                         Console.Clear();
                         UserLogin();
                     }
@@ -87,7 +95,7 @@ namespace ATM_System_V2.src
                 {
                     Console.WriteLine(" ");
                     Console.WriteLine("Falscher PIN!");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(cooldown);
                     Console.Clear();
                     UserLogin();
                 }
@@ -95,9 +103,97 @@ namespace ATM_System_V2.src
 
             // IF Login Pass: PersonalMenu();
             Console.Clear();
-            Console.WriteLine("Willkommen!" + currentUser.GetFullName());
+            Console.WriteLine("Willkommen!");
             //CurrentUserMenu();
+        }
 
+
+        public static void UserLogin()
+        {
+            int cooldown = 1000;
+
+            int userId;
+            int pin;
+
+            Accounts currentUser;
+
+            // CHECK FOR USER ID
+            Console.Clear();
+            Console.WriteLine("----- ATM-System -----");
+            Console.WriteLine(" ");
+            Console.WriteLine("UserID: ");
+            Console.WriteLine(" ");
+            Console.WriteLine("----------------------");
+
+            while (true)
+            {
+                try
+                {
+                    Console.SetCursorPosition(9, 2);
+                    userId = int.Parse(Console.ReadLine());
+
+                    currentUser = ATM.accounts.FirstOrDefault(a => a.UserId == userId);
+                    if (currentUser != null) { break; }
+                    else
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Die UserID: " + userId + " wurde nicht im System gefunden!!");
+                        Thread.Sleep(cooldown);
+                        Console.Clear();
+                        UserLogin();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Die ID muss aus Zahlen bestehen!");
+                    Thread.Sleep(cooldown);
+                    Console.Clear();
+                    UserLogin();
+                }
+            }
+
+            //PIN CHECK
+            Console.Clear();
+            Console.WriteLine("----- ATM-System -----");
+            Console.WriteLine(" ");
+            Console.WriteLine("UserID: " + currentUser.GetUserId());
+            Console.WriteLine(" ");
+            Console.WriteLine("PIN: ");
+            Console.WriteLine(" ");
+            Console.WriteLine("----------------------");
+
+            while (true)
+            {
+                try
+                {
+                    Console.SetCursorPosition(6, 4);
+                    pin = int.Parse(Console.ReadLine());
+
+                    if (currentUser.GetPin() == pin) { break; }
+                    else
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Falscher PIN!");
+                        Thread.Sleep(cooldown);
+                        Console.Clear();
+                        UserLogin();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Falscher PIN!");
+                    Thread.Sleep(cooldown);
+                    Console.Clear();
+                    UserLogin();
+                }
+            }
+
+            // IF Login Pass: PersonalMenu();
+            Console.Clear();
+            Console.WriteLine("Willkommen!");
+            //CurrentUserMenu();
         }
 
 
@@ -109,15 +205,14 @@ namespace ATM_System_V2.src
             Console.WriteLine("----- ATM-System -----");
             Console.WriteLine(" ");
             Console.WriteLine("(1) - User Login");
-            Console.WriteLine("(2) - Admin Login");
             Console.WriteLine(" ");
-            Console.WriteLine("(3) - Zurück");
-            Console.WriteLine("(4) - Exit");
+            Console.WriteLine("(2) - Zurück");
+            Console.WriteLine("(3) - Exit");
             Console.WriteLine(" ");
             Console.WriteLine("Auswahl: ");
             Console.WriteLine(" ");
             Console.WriteLine("----------------------");
-            Console.SetCursorPosition(9, 8);
+            Console.SetCursorPosition(9, 7);
             input = Console.ReadLine();
 
             switch (input)
@@ -126,15 +221,15 @@ namespace ATM_System_V2.src
                     Console.Clear();
                     UserLogin();
                     break;
-                case "2":
+                case "888":
                     Console.Clear();
-                    Console.WriteLine("Admin Login");
+                    AdminLogin();
                     break;
-                case "3":
+                case "2":
                     Console.Clear();
                     SelectLoginRegisterMenu();
                     break;
-                case "4":
+                case "3":
                     Environment.Exit(0);
                     break;
                 default:

@@ -19,10 +19,13 @@ namespace ATM_System_V2.src
 
         protected bool IsAdmin;
 
+        protected string AdminPin;
+
+
         // Konstruktor
         public static int numberOfAccounts;
 
-        public Accounts(int id, int userid, int pin, int bal, bool isadmin, string vorName, string nachName)
+        public Accounts(int id, int userid, int pin, int bal, bool isadmin, string vorName, string nachName, string adminpin = " ")
         {
             Id = id;
             UserId = userid;
@@ -31,9 +34,9 @@ namespace ATM_System_V2.src
             IsAdmin = isadmin;
             VorName = vorName;
             NachName = nachName;
+            AdminPin = adminpin;
 
             numberOfAccounts++;
-
         }
 
         //GETTER
@@ -57,9 +60,9 @@ namespace ATM_System_V2.src
         {
             return a.Bal;
         }
-        public bool GetAdminStatus(Accounts a)
+        public bool GetAdminStatus()
         {
-            return a.IsAdmin;
+            return IsAdmin;
         }
         public string GetVorName()
         {
@@ -72,6 +75,10 @@ namespace ATM_System_V2.src
         public string GetFullName()
         {
             return VorName + " " + NachName;
+        }
+        public string GetAdminPin()
+        {
+            return AdminPin;
         }
 
         //SETTER
@@ -104,31 +111,5 @@ namespace ATM_System_V2.src
         {
             a.NachName = nachName;
         }
-    }
-
-    //ADMIN ACCOUNT
-
-    class AdminAccount : Accounts
-    {
-        protected string AdminPin { get; set; }
-
-        public AdminAccount(int id, int userid, int pin, int bal, bool isadmin, string adminPin, string VorName, string NachName) : base(id, userid, pin, bal, isadmin, VorName, NachName)
-        {
-            AdminPin = adminPin;
-
-        }
-
-        //GETTER
-        public static string GetAdminPin(AdminAccount ac)
-        {
-            return ac.AdminPin;
-        }
-
-        //SETTER
-        public static void SetAdminPin(AdminAccount ac, string adminPin)
-        {
-            ac.AdminPin = adminPin;
-        }
-
     }
 }
